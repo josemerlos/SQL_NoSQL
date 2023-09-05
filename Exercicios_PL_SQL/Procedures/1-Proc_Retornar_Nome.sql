@@ -1,3 +1,5 @@
+--Criar uma procedure que receba um código de pessoa como parâmetro de entrada e através de um parâmetro de saída retorne o nome da pessoa. Caso, o código seja inexistente, retorne: Pessoa não encontrada.
+
 CREATE TABLE PESSOA(
    ID NUMBER(4) PRIMARY KEY, 
    NOME VARCHAR2(120) NOT NULL,
