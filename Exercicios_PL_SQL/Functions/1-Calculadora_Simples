@@ -24,4 +24,14 @@ BEGIN
 
     RETURN resultado;
 END;
-/
+
+
+
+-- Exemplo chamando a function
+
+DECLARE
+    resultado NUMBER;
+BEGIN
+    resultado := calculadora(8, 4, 'MULTIPLICACAO');
+    DBMS_OUTPUT.PUT_LINE('Resultado da multiplicação: ' || resultado);
+END;
