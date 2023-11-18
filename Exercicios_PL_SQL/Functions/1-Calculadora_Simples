@@ -1,0 +1,27 @@
+-- Crie uma função PL/SQL que realize operações básicas de uma calculadora (adição, subtração, multiplicação, divisão).
+
+CREATE OR REPLACE FUNCTION calculadora(
+    a NUMBER,
+    b NUMBER,
+    operacao VARCHAR2
+) RETURN NUMBER
+IS
+    resultado NUMBER;
+BEGIN
+    CASE operacao
+        WHEN 'SOMA' THEN resultado := a + b;
+        WHEN 'SUBTRACAO' THEN resultado := a - b;
+        WHEN 'MULTIPLICACAO' THEN resultado := a * b;
+        WHEN 'DIVISAO' THEN
+            IF b != 0 THEN
+                resultado := a / b;
+            ELSE
+                RAISE_APPLICATION_ERROR(-20001, 'Divisão por zero não é permitida.');
+            END IF;
+        ELSE
+            RAISE_APPLICATION_ERROR(-20002, 'Operação inválida.');
+    END CASE;
+
+    RETURN resultado;
+END;
+/
