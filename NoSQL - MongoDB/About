@@ -1,0 +1,46 @@
+About MongoDB
+MongoDB is a cross platform document oriented NoSQL database.
+
+Key Features:
+Designed to overcome the the limitations of relational databases approach and other NoSQL solutions
+Horizontal scaling
+Load balancing capabilities
+Better data availability and stability
+Syntax help
+
+Commands
+
+Inserting documents
+db.collection.insert(): Using insert you can either insert one document or array of documents
+db.employees.insert(   {empId: 3, name: 'Ava', dept: 'Sales' });
+db.collection.insertOne(): Inserts one document
+db.employees.insertOne(  {empId: 4, name: 'Nick', dept: 'Accounting' });
+db.collection.insertMany: Inserts multiple documents
+db.employees.insertMany([
+  {empId: 1, name: 'Clark', dept: 'Sales' },
+  {empId: 2, name: 'Dave', dept: 'Accounting' }
+]);
+
+Updating documents
+db.collection.update() : Updates one or more than one document(s) in collection based on matching document and based on multi option
+db.employees.update(   
+  {empId: 3 },
+  { $set: { region: "Asia" } }
+);
+db.collection.updateOne() : Updates a single document in collection based on matching document
+db.employees.updateOne(   
+  {empId: 2 },
+  { $set: { region: "Asia" } }
+);
+db.collection.updateMany() : Updates multiple documents in collection based on the condition.
+db.employees.updateMany(   
+  { dept: 'Sales'},
+  { $set: { region: "US" } }
+);
+
+
+Deleting documents
+db.collection.deleteOne(<filter>, <options>): Deletes a Single document from collection
+db.employees.deleteOne({ empId: 1})
+db.collection.deleteMany(<filter>, <options>): Deletes all documents with matching filter
+db.employees.deleteMany({ dept: 'Sales'})
