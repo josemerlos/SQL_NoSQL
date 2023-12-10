@@ -1,0 +1,54 @@
+Exercício 1: Inserção de Dados no MongoDB
+Insira um documento em uma coleção chamada "users" com as informações de um usuário, incluindo nome, idade e endereço.
+
+
+// Conectando ao banco de dados
+use minha_base_de_dados
+
+// Inserindo um documento na coleção "users"
+db.users.insertOne({
+    nome: "João Silva",
+    idade: 30,
+    endereco: {
+        rua: "Rua A",
+        cidade: "Cidade X",
+        estado: "Estado Y"
+    }
+})
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Exercício 2: Consulta de Dados no MongoDB
+Recupere todos os documentos da coleção "users" cuja idade seja maior que 25.
+
+// Consultando documentos na coleção "users" com idade maior que 25
+db.users.find({ idade: { $gt: 25 } })
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Exercício 3: Atualização de Dados no MongoDB
+Atualize a idade de um usuário específico na coleção "users".
+
+// Atualizando a idade de um usuário na coleção "users"
+db.users.updateOne(
+    { nome: "João Silva" },
+    { $set: { idade: 31 } }
+)
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Exercício 4: Remoção de Dados no MongoDB
+Remova um usuário da coleção "users" com base no nome.
+
+// Removendo um usuário da coleção "users" com base no nome
+db.users.deleteOne({ nome: "João Silva" })
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+Exercício 5: Índices no MongoDB
+Pergunta:
+Crie um índice na coleção "users" para acelerar consultas por idade.
+
+// Criando um índice na coleção "users" para o campo "idade"
+db.users.createIndex({ idade: 1 })
