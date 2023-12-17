@@ -34,10 +34,9 @@ EXCEPTION
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Erro ao calcular a média.');
 END calcular_media_alunos;
-/
+
 
 -- Execução da Procedure para Calcular a Média do Aluno com ID 1
 BEGIN
     calcular_media_alunos(1);
 END;
-/
