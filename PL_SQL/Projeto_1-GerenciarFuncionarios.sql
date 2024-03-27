@@ -11,7 +11,7 @@ CREATE TABLE funcionarios (
     data_contratacao DATE
 );
 
--- Criação da Sequence para ID Automático
+-- Criação da Sequence
 CREATE SEQUENCE seq_funcionarios START WITH 1 INCREMENT BY 1;
 
 -- Criação da Tabela de Departamentos
