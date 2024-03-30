@@ -66,14 +66,14 @@ WHERE p.Valor_Total = (
     FROM Pedidos);
     
     
- -- 10 - Calcular o número total de pedidos feitos por cada cliente:
+ -- 10 - Calcular o numero total de pedidos feitos por cada cliente:
 SELECT c.ID_Cliente, c.Nome, COUNT(p.ID_Pedido) AS Total_Pedidos
 FROM Clientes c
 LEFT JOIN Pedidos p ON c.ID_Cliente = p.ID_Cliente
 GROUP BY c.ID_Cliente, c.Nome;  
 
 
--- 11 - Encontrar o cliente com o maior número de pedidos:
+-- 11 - Encontrar o cliente com o maior número de pedidos
 SELECT c.ID_Cliente, c.Nome, COUNT(p.ID_Pedido) AS Total_Pedidos
 FROM Clientes c
 LEFT JOIN Pedidos p ON c.ID_Cliente = p.ID_Cliente
