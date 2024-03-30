@@ -27,7 +27,7 @@ END;
 
 
 
--- Exemplo chamando a function
+-- Chamando a function
 
 DECLARE
     resultado NUMBER;
