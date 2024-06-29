@@ -2,12 +2,6 @@
 Repositório destinado a armazenar o conhecimento sobre SQL e NoSQL através de projetos e exercícios.
 
 
-![image](https://github.com/josemerlos/SQL_NoSQL/assets/50033164/c428c142-0db5-4aa8-9b80-d891529472e0)
-
-
-
-![image](https://github.com/josemerlos/SQL_NoSQL/assets/50033164/721abe9b-3abb-410c-9214-09dd2c3e9f58)
-
 
 
 
@@ -37,4 +31,15 @@ São comandos DTL : BEGIN TRANSACTION, COMMIT E ROLLBACK
 DCL - Data Control Language - Linguagem de Controle de Dados.
 São os comandos para controlar a parte de segurança do banco de dados.
 São comandos DCL : GRANT, REVOKE E DENY.
+
+
+
+
+
+![image](https://github.com/josemerlos/SQL_NoSQL/assets/50033164/c428c142-0db5-4aa8-9b80-d891529472e0)
+
+
+
+![image](https://github.com/josemerlos/SQL_NoSQL/assets/50033164/721abe9b-3abb-410c-9214-09dd2c3e9f58)
+
 
