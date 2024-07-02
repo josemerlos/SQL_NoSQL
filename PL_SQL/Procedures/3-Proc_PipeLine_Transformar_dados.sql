@@ -109,7 +109,7 @@ id	cleaned_data	transformed_amount
 1	Data One	    100
 2	Data Two	    200
 3	Data Three	    300
-Este exemplo ilustra um pipeline básico em PL/SQL que realiza limpeza e transformação de dados de uma tabela de origem para uma tabela de destino. Você pode expandir e adaptar este exemplo conforme suas necessidades específicas de processamento de dados.
+Este exemplo ilustra um pipeline básico em PL/SQL que realiza limpeza e transformação de dados de uma tabela de origem para uma tabela de destino
 */
 
 
