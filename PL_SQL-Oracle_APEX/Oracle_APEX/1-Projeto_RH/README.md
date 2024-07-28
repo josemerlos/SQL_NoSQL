@@ -1,4 +1,5 @@
 # Versão 1 - Página para cadastro de Funcionários
-![image](https://github.com/josemerlos/SQL_NoSQL/assets/50033164/721abe9b-3abb-410c-9214-09dd2c3e9f58)
+![image](https://github.com/user-attachments/assets/8c76a5f4-6f2d-430d-b9b9-791a993b8e0e)
+
 
 
