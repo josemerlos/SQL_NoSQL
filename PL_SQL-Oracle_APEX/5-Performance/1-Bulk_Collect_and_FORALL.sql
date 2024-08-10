@@ -1,6 +1,6 @@
-Uso de BULK COLLECT e FORALL em PL/SQL para Operações em Lote
+/*Uso de BULK COLLECT e FORALL em PL/SQL para Operações em Lote
 
-/*
+
 Trata-se de uma instrucao select into com bulk collect opcional antes do INTO e recupera linhas em uma matriz   ---- exemplos de performance
 
 
