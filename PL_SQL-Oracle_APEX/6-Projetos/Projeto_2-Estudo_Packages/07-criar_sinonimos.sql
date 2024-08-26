@@ -12,3 +12,7 @@ CREATE PUBLIC SYNONYM CLIENTE FOR USER_DEV.CLIENTE;
 
 
 SELECT * FROM CLIENTE;
+
+
+-- temos uma tabela que é chamada por uma procedure para fazer algo. Mas, a procedure também chama algumas funções. Aquela procedure que criamos denominada APP_INCLUIR_CLIENTE associada ao usuário user_app chama 
+--um sinônimo da procedure INCLUIR_CLIENTE que está associada ao usuário user_dev. Ou seja, todos os nossos objetos têm uma certa interdependência.
