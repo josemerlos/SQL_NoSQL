@@ -1,193 +1,41 @@
--- No Oracle SQL Developer ir para: Menu Superior -> Ferramentas -> Preferencias
--- Banco de Dados -> Planilha 
--- Em SELECIONAR CAMINHO PADRÃO PARA PROCURA DE SCRIPTS colocar o local do script do curso. 
+CREATE TABLE "USER_DEV"."PRODUTO_EXERCICIO" (
+    "COD" VARCHAR2(5 BYTE), 
+    "DESCRICAO" VARCHAR2(100 BYTE), 
+    "CATEGORIA" VARCHAR2(100 BYTE)
+);
 
-CREATE OR REPLACE FUNCTION OBTER_CATEGORIA_CLIENTE
-    (p_faturamento_previsto IN cliente.faturamento_previsto%type)
-    RETURN cliente.categoria%type
-IS
-BEGIN
-    IF p_faturamento_previsto <= 10000 THEN 
-       RETURN 'PEQUENO';
-    ELSIF p_faturamento_previsto <= 50000 THEN
-       RETURN 'MEDIO';
-    ELSIF p_faturamento_previsto <= 100000  THEN
-       RETURN 'MEDIO GRANDE';
-    ELSE
-       RETURN 'GRANDE';
-    END IF;   
-END;
-/
+CREATE UNIQUE INDEX "USER_DEV"."PRODUTO_EXERCICIO_COD_PK" ON "USER_DEV"."PRODUTO_EXERCICIO" ("COD") ;
 
-CREATE OR REPLACE FUNCTION OBTER_DESCRICAO_SEGMENTO 
-    (p_id in segmercado.id%type)
-    RETURN segmercado.descricao%type
-IS
-    v_descricao segmercado.descricao%type;
-BEGIN
-    SELECT descricao INTO v_descricao
-       FROM segmercado
-       WHERE id = p_id;
-    RETURN v_descricao;
-EXCEPTION
-        WHEN no_data_found then
-            raise_application_error(-20002,'Segmento de Mercado	Inexistente');
-END;
-/
+ALTER TABLE "USER_DEV"."PRODUTO_EXERCICIO" ADD CONSTRAINT "PRODUTO_EXERCICIO_COD_PK" PRIMARY KEY ("COD");
 
-CREATE OR REPLACE FUNCTION VERIFICA_SEGMENTO_MERCADO
-    (p_id in segmercado.id%type)
-        RETURN boolean
-IS
-    v_dummy number(1);
-BEGIN
-    SELECT 1 into v_dummy
-        FROM segmercado
-        WHERE id = p_id;
-    RETURN true;
-EXCEPTION   
-    WHEN no_data_found then
-        RETURN false;
-END;
-/
+CREATE TABLE "USER_DEV"."PRODUTO_VENDA_EXERCICIO" 
+   (    "ID" NUMBER(5,0), 
+    "COD_PRODUTO" VARCHAR2(5 BYTE), 
+    "DATA" DATE, 
+    "QUANTIDADE" FLOAT(126), 
+    "PRECO" FLOAT(126), 
+    "VALOR_TOTAL" FLOAT(126), 
+    "PERCENTUAL_IMPOSTO" FLOAT(126)
+   );
 
+CREATE UNIQUE INDEX "USER_DEV"."PRODUTO_VENDA_EXERCICIO_ID_PK" ON "USER_DEV"."PRODUTO_VENDA_EXERCICIO" ("ID") ;
 
-CREATE OR REPLACE PROCEDURE FORMAT_CNPJ 
-			(p_cnpj IN OUT varchar2)
-IS
-BEGIN
-	p_cnpj := substr(p_cnpj,1,2) ||'/'|| substr(p_cnpj,3);
-END;
-/
+ALTER TABLE "USER_DEV"."PRODUTO_VENDA_EXERCICIO" ADD CONSTRAINT "PRODUTO_VENDA_EXERCICIO_ID_PK" PRIMARY KEY ("ID");
 
-CREATE OR REPLACE PROCEDURE ATUALIZAR_CLI_SEG_MERCADO
-    (p_id cliente.id%type,
-     p_segmercado_id cliente.segmercado_id%type)
-IS
-        e_fk exception;
-        pragma exception_init(e_fk, -2291);
-        e_no_update exception;
-BEGIN
-    UPDATE cliente
-        SET segmercado_id = p_segmercado_id
-        WHERE id = p_id;
-    IF SQL%NOTFOUND then
-        RAISE e_no_update;
-    END IF;
-    COMMIT;
-EXCEPTION
-    WHEN e_fk then
-        RAISE_APPLICATION_ERROR (-20001,'Segmento de Mercado Inexistente');
-    WHEN e_no_update then
-       RAISE_APPLICATION_ERROR (-20002,'Cliente Inexistente');
-END;
-/
+ALTER TABLE "USER_DEV"."PRODUTO_VENDA_EXERCICIO" ADD CONSTRAINT "PRODUTO_VENDA_EXERCICIO_PRODUTO_EXERCICIO_COD" FOREIGN KEY ("COD_PRODUTO") 
+    REFERENCES "USER_DEV"."PRODUTO_EXERCICIO" ("COD");
 
-CREATE OR REPLACE PROCEDURE ATUALIZAR_FATURAMENTO_PREVISTO
-    (p_id in cliente.id%type,
-     p_faturamento_previsto in cliente.faturamento_previsto%type)
-IS 
-    v_categoria cliente.categoria%type;
-    e_error_id exception;
-BEGIN
-    v_categoria := obter_categoria_cliente(p_faturamento_previsto);
-    UPDATE cliente
-        SET categoria = v_categoria,
-            faturamento_previsto = p_faturamento_previsto
-        WHERE id = p_id;
-    IF SQL%NOTFOUND THEN
-        RAISE e_error_id;
-    END IF;
-    COMMIT;
-EXCEPTION
-    WHEN e_error_id then
-        raise_application_error(-20010,'Cliente inexistente');
-END;
-/
+Insert into PRODUTO_EXERCICIO (COD,DESCRICAO,CATEGORIA) values ('41232','Sabor de Verão > Laranja > 1 Litro','Sucos de Frutas');
+Insert into PRODUTO_EXERCICIO (COD,DESCRICAO,CATEGORIA) values ('32223','Sabor de Verão > Uva > 1 Litro','Sucos de Frutas');
+Insert into PRODUTO_EXERCICIO (COD,DESCRICAO,CATEGORIA) values ('67120','Frescor da Montanha > Aroma Limão > 1 Litro','Águas');
+Insert into PRODUTO_EXERCICIO (COD,DESCRICAO,CATEGORIA) values ('92347','Aroma do Campo > Mate > 1 Litro','Mate');
+Insert into PRODUTO_EXERCICIO (COD,DESCRICAO,CATEGORIA) values ('33854','Frescor da Montanha > Aroma Laranja > 1 Litro','Águas');
 
-CREATE OR REPLACE PROCEDURE EXCLUIR_CLIENTE
-    (p_id in cliente.id%type)
-IS 
-    e_error_id exception;
-BEGIN
-    DELETE FROM cliente
-        WHERE id = p_id;
-    IF SQL%NOTFOUND THEN
-        RAISE e_error_id;
-    END IF;
-    COMMIT;
-EXCEPTION
-    WHEN e_error_id then
-        raise_application_error(-20010,'Cliente inexistente');
-END;
-/
-
-CREATE OR REPLACE PROCEDURE INCLUIR_CLIENTE 
-   (p_id in cliente.id%type,
-    p_razao_social in cliente.razao_social%type,
-    p_CNPJ cliente.CNPJ%type ,
-    p_segmercado_id cliente.segmercado_id%type,
-    p_faturamento_previsto cliente.faturamento_previsto%type)
-IS
-    v_categoria cliente.categoria%type;
-    v_CNPJ cliente.cnpj%type := p_CNPJ;
-    v_codigo_erro number(5);
-    v_mensagem_erro varchar2(200);
-    v_dummy number;
-    v_verifica_segmento boolean;
-    e_segmento exception;
-BEGIN
-    v_verifica_segmento := 	verifica_segmento_mercado(p_segmercado_id);
-    IF v_verifica_segmento = false THEN
-        RAISE e_segmento;
-    END IF;
-    v_categoria := obter_categoria_cliente(p_faturamento_previsto);
-    format_cnpj (v_cnpj);
-    INSERT INTO cliente 
-          VALUES (p_id, UPPER(p_razao_social), v_CNPJ, p_segmercado_id
-                  ,SYSDATE, p_faturamento_previsto, v_categoria);
-   COMMIT;   
-EXCEPTION
-    WHEN dup_val_on_index then
-        raise_application_error(-20010,'Cliente já cadastrado');
-    WHEN e_segmento then
-        raise_application_error (-20011,'Segmento de mercado inexistente');
-    WHEN OTHERS then
-        v_codigo_erro := sqlcode;
-        v_mensagem_erro := sqlerrm;
-        raise_application_error (-20000,to_char(v_codigo_erro)||v_mensagem_erro);
-END;
-/
-
-CREATE OR REPLACE PROCEDURE INCLUIR_SEGMERCADO
-    (p_id in segmercado.id%type,
-     p_descricao in segmercado.descricao%type)
-IS
- BEGIN
-    INSERT into segmercado 
-       values(p_id, UPPER(p_descricao));
-    COMMIT;
-EXCEPTION
-    WHEN dup_val_on_index THEN
-        raise_application_error(-20001,'Segmento de Mercado já Cadastrado');
-END;
-/
-
-
-
-CREATE OR REPLACE FUNCTION VERIFICA_SEGMENTO_MERCADO
-    (p_id in segmercado.id%type)
-        RETURN boolean
-IS
-    v_dummy number(1);
-BEGIN
-    SELECT 1 into v_dummy
-        FROM segmercado
-        WHERE id = p_id;
-    RETURN true;
-EXCEPTION   
-    WHEN no_data_found then
-        RETURN false;
-END;
-/
-
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('1','41232',to_date('01/01/22','DD/MM/RR'),'100','10','1000','10');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('2','92347',to_date('01/01/22','DD/MM/RR'),'200','25','5000','15');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('3','41232',to_date('01/02/22','DD/MM/RR'),'250','20','5000','10');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('4','32223',to_date('03/02/22','DD/MM/RR'),'200','16','3200','10');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('5','92347',to_date('05/02/22','DD/MM/RR'),'200','16','3200','15');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('6','41232',to_date('02/03/22','DD/MM/RR'),'210','19','3990','10');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('7','33854',to_date('05/03/22','DD/MM/RR'),'180','21','3780','20');
+Insert into PRODUTO_VENDA_EXERCICIO (ID,COD_PRODUTO,DATA,QUANTIDADE,PRECO,VALOR_TOTAL,PERCENTUAL_IMPOSTO) values ('8','92347',to_date('09/03/22','DD/MM/RR'),'170','20','3400','15');
