@@ -144,3 +144,26 @@ as
   from deptree
   group by seq# /* So user can omit sort-by when selecting from ideptree */
 /
+
+
+
+
+
+
+
+
+rem SELECT * FROM DEPTREE_TEMPTAB;
+
+rem EXECUTE DEPTREE_FILL('table', 'user_dev', 'CLIENTE');
+
+rem SELECT NESTED_LEVEL, SCHEMA, TYPE, NAME, SEQ# FROM DEPTREE ORDER BY SEQ#;
+
+
+
+
+
+
+
+
+
+
