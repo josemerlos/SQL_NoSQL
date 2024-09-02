@@ -1,3 +1,6 @@
+
+Rem sempre localizar o arquivo correspondente na sua maquina do seu banco
+
 Rem 
 Rem $Header: rdbms/admin/utldtree.sql /main/5 2020/07/20 02:45:39 dgoddard Exp $ 
 Rem 
