@@ -29,7 +29,7 @@ São os comandos para controle de transação.
 São comandos DTL : BEGIN TRANSACTION, COMMIT E ROLLBACK
 
 DCL - Data Control Language - Linguagem de Controle de Dados.
-São os comandos para controlar a parte de segurança do banco de dados.
+São os comandos para controlar a parte de segurança do banco de dados...
 São comandos DCL : GRANT, REVOKE E DENY.
 
 
