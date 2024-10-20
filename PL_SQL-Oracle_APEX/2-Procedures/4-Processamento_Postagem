@@ -1,0 +1,84 @@
+
+-- Tabela para armazenar postagens brutas (dados de entrada)
+CREATE TABLE POSTAGENS_BRUTAS (
+    ID_POSTAGEM NUMBER PRIMARY KEY,
+    CONTEUDO_POSTAGEM VARCHAR2(4000),
+    NOME_AUTOR VARCHAR2(100),
+    DATA_CRIACAO DATE DEFAULT SYSDATE,
+    STATUS VARCHAR2(20) DEFAULT 'PENDENTE'
+);
+
+-- Tabela para armazenar postagens prontas para publicação (dados de saída)
+CREATE TABLE POSTAGENS_PRONTAS (
+    ID_POSTAGEM NUMBER PRIMARY KEY,
+    CONTEUDO_FORMATADO VARCHAR2(4000),
+    NOME_AUTOR VARCHAR2(100),
+    DATA_PROCESSAMENTO DATE DEFAULT SYSDATE,
+    PRONTO_PARA_PUBLICAR VARCHAR2(3) CHECK (PRONTO_PARA_PUBLICAR IN ('SIM', 'NAO'))
+);
+
+
+
+
+
+
+
+CREATE OR REPLACE PROCEDURE PROCESSA_POSTAGENS AS
+    -- Cursor para selecionar postagens pendentes
+    CURSOR c_postagens IS
+        SELECT ID_POSTAGEM, CONTEUDO_POSTAGEM, NOME_AUTOR 
+        FROM POSTAGENS_BRUTAS
+        WHERE STATUS = 'PENDENTE';
+
+    -- Variáveis para armazenar os dados do cursor
+    v_id_postagem POSTAGENS_BRUTAS.ID_POSTAGEM%TYPE;
+    v_conteudo POSTAGENS_BRUTAS.CONTEUDO_POSTAGEM%TYPE;
+    v_nome_autor POSTAGENS_BRUTAS.NOME_AUTOR%TYPE;
+    v_tamanho_palavras NUMBER;
+    v_hashtag VARCHAR2(50);
+
+BEGIN
+    -- Percorrer as postagens pendentes
+    FOR postagem IN c_postagens LOOP
+        v_id_postagem := postagem.ID_POSTAGEM;
+        v_conteudo := postagem.CONTEUDO_POSTAGEM;
+        v_nome_autor := postagem.NOME_AUTOR;
+
+        --  1. Limpeza do Conteúdo 
+        -- Remover espaços excessivos e caracteres especiais
+        v_conteudo := TRIM(REGEXP_REPLACE(v_conteudo, '[^a-zA-Z0-9 ]', ''));
+
+        --  2. Padronização do Nome do Autor 
+        -- Transformar o nome para maiúsculas iniciais
+        v_nome_autor := INITCAP(v_nome_autor);
+
+        --  3. Contagem de Palavras 
+        v_tamanho_palavras := LENGTH(REGEXP_REPLACE(v_conteudo, '[^ ]+', '')) + 1;
+
+        --  4. Adição de Hashtags Personalizadas 
+        IF v_tamanho_palavras < 50 THEN
+            v_hashtag := '#PostagemCurta';
+        ELSE
+            v_hashtag := '#PostagemLonga';
+        END IF;
+
+        -- Adicionar a hashtag ao conteúdo formatado
+        v_conteudo := v_conteudo || ' ' || v_hashtag || ' #PublicacaoAutomatizada';
+
+        --  5. Inserção na Tabela de Postagens Prontas 
+        INSERT INTO POSTAGENS_PRONTAS (
+            ID_POSTAGEM, CONTEUDO_FORMATADO, NOME_AUTOR, PRONTO_PARA_PUBLICAR
+        ) VALUES (
+            v_id_postagem, v_conteudo, v_nome_autor, 'SIM'
+        );
+
+        -- Atualizar o status da postagem original para "PROCESSADO"
+        UPDATE POSTAGENS_BRUTAS
+        SET STATUS = 'PROCESSADO'
+        WHERE ID_POSTAGEM = v_id_postagem;
+
+    END LOOP;
+
+    -- Confirmar as alterações
+    COMMIT;
+END;
