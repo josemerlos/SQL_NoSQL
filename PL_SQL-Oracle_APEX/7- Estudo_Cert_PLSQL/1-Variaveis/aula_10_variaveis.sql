@@ -6,7 +6,7 @@ begin
 end;
 -----------------------------------------------------
 declare 
-    v_texto binary_float not null := 10.45;
+    v_texto binary_float not null := 10.45; -- quando preciso de precisao em calculos complexos
 begin
     dbms_output.put_line('Vocês são '||v_texto);
 end;
@@ -15,6 +15,7 @@ declare
     v_texto date := sysdate;
 begin
     dbms_output.put_line('Hoje é dia '||v_texto);
+    dbms_output.put_line('Hoje é dia '||to_char(v_texto,'dd/mm/yyyy'));
 end;
 -----------------------------------------------------
 declare 
