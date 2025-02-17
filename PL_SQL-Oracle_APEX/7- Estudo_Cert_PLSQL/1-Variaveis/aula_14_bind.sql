@@ -1,4 +1,4 @@
---Aula 14: Variáveis bind
+--Aula 14: Variáveis  bind
 variable b_text varchar2(50);
 
 begin
