@@ -22,7 +22,7 @@ DQL - Data Query Language - Linguagem de Consulta de dados.
 São os comandos de consulta.
 São comandos DQL : SELECT (é o comando de consulta)
 
-Em alguns livros o SELECT fica na DML em outros tem esse grupo próprio.
+Em alguns livros o SELECT fica na DML em outros tem esse grupo próprio
 
 DTL - Data Transaction Language - Linguagem de Transação de Dados.
 São os comandos para controle de transação.
