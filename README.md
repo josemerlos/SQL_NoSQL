@@ -11,7 +11,7 @@ Os tipos da linguagem SQL são:
 
 DDL - Data Definition Language - Linguagem de Definição de Dados.
 São os comandos que interagem com os objetos do banco.
-São comandos DDL : CREATE, ALTER e DROP
+São comandos DDL : CREATE, ALTER e DROP.
 
 
 DML - Data Manipulation Language - Linguagem de Manipulação de Dados.
