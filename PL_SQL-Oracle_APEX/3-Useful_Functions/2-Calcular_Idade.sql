@@ -24,3 +24,4 @@ BEGIN
     v_idade := calcular_idade(v_data_nascimento);
     DBMS_OUTPUT.PUT_LINE('A idade é: ' || v_idade);
 END;
+---
